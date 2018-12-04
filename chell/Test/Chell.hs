@@ -123,7 +123,6 @@ import qualified Control.Exception
 import           Control.Exception (Exception)
 import           Control.Monad (ap, liftM)
 import           Control.Monad.IO.Class (MonadIO, liftIO)
-import qualified Data.Algorithm.Patience as Patience
 import qualified Data.ByteString.Char8
 import qualified Data.ByteString.Lazy.Char8
 import           Data.Foldable (Foldable, foldMap)
@@ -135,6 +134,8 @@ import           Data.Text (Text)
 import qualified Data.Text.Lazy
 
 import qualified Language.Haskell.TH as TH
+
+import qualified Patience
 
 import           Test.Chell.Main (defaultMain)
 import           Test.Chell.Types

@@ -53,8 +53,16 @@ property name prop = Chell.test name $ \opts -> do
 		, State.computeSize = computeSize (QuickCheck.maxSize args) (QuickCheck.maxSuccess args)
 		, State.numSuccessTests = 0
 		, State.numDiscardedTests = 0
+#if MIN_VERSION_QuickCheck(2,12,0)
+		, State.classes = mempty
+		, State.tables = mempty
+		, State.requiredCoverage = mempty
+		, State.expected = True
+		, State.coverageConfidence = Nothing
+#else
 		, State.collected = []
 		, State.expectedFailure = False
+#endif
 
 #if MIN_VERSION_QuickCheck(2,7,0)
 		, State.randomSeed = QCRandom.mkQCGen seed
@@ -77,12 +85,16 @@ property name prop = Chell.test name $ \opts -> do
 #endif
 		}
 	
+#if MIN_VERSION_QuickCheck(2,12,0)
+	result <- Test.test state (QuickCheck.property prop)
+#else
 #if MIN_VERSION_QuickCheck(2,7,0)
 	let genProp = unProperty (QuickCheck.property prop)
 #else
 	let genProp = QuickCheck.property prop
 #endif
 	result <- Test.test state (Gen.unGen genProp)
+#endif
 	let output = Test.output result
 	let notes = [("seed", show seed)]
 	let failure = Chell.failure { Chell.failureMessage = output }

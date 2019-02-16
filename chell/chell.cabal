@@ -11,6 +11,9 @@ bug-reports: mailto:jmillikin@gmail.com
 homepage: https://john-millikin.com/software/chell/
 
 synopsis: A simple and intuitive library for automated testing.
+
+tested-with: GHC == 8.2.2, GHC == 8.4.4, GHC == 8.6.3
+
 description:
   Chell is a simple and intuitive library for automated testing. It natively
   supports assertion-based testing, and can use companion libraries

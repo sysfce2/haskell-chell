@@ -1,6 +1,6 @@
 module Test.Chell.Main
-	( defaultMain
-	) where
+  ( defaultMain
+  ) where
 
 import           Control.Applicative
 import           Control.Monad (forM, forM_, when)

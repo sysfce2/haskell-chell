@@ -37,86 +37,86 @@
 -- >$ ./chell-example
 -- >PASS: 2 tests run, 2 tests passed
 module Test.Chell
-	(
+  (
 
-	-- * Main
-	  defaultMain
+  -- * Main
+    defaultMain
 
-	-- * Test suites
-	, Suite
-	, suite
-	, suiteName
-	, suiteTests
+  -- * Test suites
+  , Suite
+  , suite
+  , suiteName
+  , suiteTests
 
-	-- ** Skipping some tests
-	, SuiteOrTest
-	, skipIf
-	, skipWhen
+  -- ** Skipping some tests
+  , SuiteOrTest
+  , skipIf
+  , skipWhen
 
-	-- * Basic testing library
-	, Assertions
-	, assertions
-	, IsAssertion
-	, Assertion
-	, assertionPassed
-	, assertionFailed
-	, assert
-	, expect
-	, die
-	, trace
-	, note
-	, afterTest
-	, requireLeft
-	, requireRight
+  -- * Basic testing library
+  , Assertions
+  , assertions
+  , IsAssertion
+  , Assertion
+  , assertionPassed
+  , assertionFailed
+  , assert
+  , expect
+  , die
+  , trace
+  , note
+  , afterTest
+  , requireLeft
+  , requireRight
 
-	-- ** Built-in assertions
-	, equal
-	, notEqual
-	, equalWithin
-	, just
-	, nothing
-	, left
-	, right
-	, throws
-	, throwsEq
-	, greater
-	, greaterEqual
-	, lesser
-	, lesserEqual
-	, sameItems
-	, equalItems
-	, IsText
-	, equalLines
-	, equalLinesWith
+  -- ** Built-in assertions
+  , equal
+  , notEqual
+  , equalWithin
+  , just
+  , nothing
+  , left
+  , right
+  , throws
+  , throwsEq
+  , greater
+  , greaterEqual
+  , lesser
+  , lesserEqual
+  , sameItems
+  , equalItems
+  , IsText
+  , equalLines
+  , equalLinesWith
 
-	-- * Custom test types
-	, Test
-	, test
-	, testName
-	, runTest
+  -- * Custom test types
+  , Test
+  , test
+  , testName
+  , runTest
 
-	-- ** Test results
-	, TestResult (..)
+  -- ** Test results
+  , TestResult (..)
 
-	-- *** Failures
-	, Failure
-	, failure
-	, failureLocation
-	, failureMessage
+  -- *** Failures
+  , Failure
+  , failure
+  , failureLocation
+  , failureMessage
 
-	-- *** Failure locations
-	, Location
-	, location
-	, locationFile
-	, locationModule
-	, locationLine
+  -- *** Failure locations
+  , Location
+  , location
+  , locationFile
+  , locationModule
+  , locationLine
 
-	-- ** Test options
-	, TestOptions
-	, defaultTestOptions
-	, testOptionSeed
-	, testOptionTimeout
-	) where
+  -- ** Test options
+  , TestOptions
+  , defaultTestOptions
+  , testOptionSeed
+  , testOptionTimeout
+  ) where
 
 import qualified Control.Applicative
 import qualified Control.Exception

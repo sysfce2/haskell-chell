@@ -1,6 +1,6 @@
 module Test.Chell.HUnit
-	( hunit
-	) where
+  ( hunit
+  ) where
 
 import qualified Test.Chell as Chell
 import           Test.HUnit.Lang (Assertion, Result (..), performTestCase)

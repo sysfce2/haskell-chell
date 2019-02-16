@@ -1,15 +1,15 @@
 {-# LANGUAGE CPP #-}
 
 module Test.Chell.Output
-	( Output
-	, outputStart
-	, outputResult
+  ( Output
+  , outputStart
+  , outputResult
 
-	, ColorMode(..)
+  , ColorMode(..)
 
-	, plainOutput
-	, colorOutput
-	) where
+  , plainOutput
+  , colorOutput
+  ) where
 
 import           Control.Monad (forM_, unless, when)
 

@@ -1,39 +1,39 @@
 module Test.Chell.Types
-	( Test
-	, test
-	, testName
+  ( Test
+  , test
+  , testName
 
-	, TestOptions
-	, defaultTestOptions
-	, testOptionSeed
-	, testOptionTimeout
+  , TestOptions
+  , defaultTestOptions
+  , testOptionSeed
+  , testOptionTimeout
 
-	, TestResult(TestPassed, TestSkipped, TestFailed, TestAborted)
+  , TestResult(TestPassed, TestSkipped, TestFailed, TestAborted)
 
-	, Failure
-	, failure
-	, failureLocation
-	, failureMessage
+  , Failure
+  , failure
+  , failureLocation
+  , failureMessage
 
-	, Location
-	, location
-	, locationFile
-	, locationModule
-	, locationLine
+  , Location
+  , location
+  , locationFile
+  , locationModule
+  , locationLine
 
-	, Suite
-	, suite
-	, suiteName
-	, suiteTests
+  , Suite
+  , suite
+  , suiteName
+  , suiteTests
 
-	, SuiteOrTest
-	, skipIf
-	, skipWhen
+  , SuiteOrTest
+  , skipIf
+  , skipWhen
 
-	, runTest
+  , runTest
 
-	, handleJankyIO
-	) where
+  , handleJankyIO
+  ) where
 
 import qualified Control.Exception
 import           Control.Exception (SomeException, Handler(..), catches, throwIO)

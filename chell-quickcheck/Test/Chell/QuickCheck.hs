@@ -1,8 +1,8 @@
 {-# LANGUAGE CPP #-}
 
 module Test.Chell.QuickCheck
-	( property
-	) where
+  ( property
+  ) where
 
 import           Data.Monoid (mempty)
 import           System.Random (mkStdGen)

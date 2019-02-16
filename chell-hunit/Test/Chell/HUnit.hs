@@ -3,7 +3,7 @@ module Test.Chell.HUnit
 	) where
 
 import qualified Test.Chell as Chell
-import           Test.HUnit.Lang (Assertion, performTestCase)
+import           Test.HUnit.Lang (Assertion, Result (..), performTestCase)
 
 -- | Convert a sequence of HUnit assertions (embedded in IO) to a Chell
 -- 'Chell.Test'.
@@ -23,7 +23,7 @@ hunit name io = Chell.test name chell_io where
 	chell_io _ = do
 		result <- performTestCase io
 		return $ case result of
-			Nothing -> Chell.TestPassed []
-			Just err -> parseError err
-	parseError (True, msg) = Chell.TestFailed [] [Chell.failure { Chell.failureMessage = msg }]
-	parseError (False, msg) = Chell.TestAborted [] msg
+			Success -> Chell.TestPassed []
+			Failure _ msg -> Chell.TestFailed []
+					[Chell.failure { Chell.failureMessage = msg }]
+			Error _ msg -> Chell.TestAborted [] msg

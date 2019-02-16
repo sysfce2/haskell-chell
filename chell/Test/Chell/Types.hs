@@ -185,9 +185,10 @@ data Suite =
   Suite String [Test]
   deriving Show
 
-class SuiteOrTest a where
-	skipIf_ :: Bool -> a -> a
-	skipWhen_ :: IO Bool -> a -> a
+class SuiteOrTest a
+  where
+    skipIf_ :: Bool -> a -> a
+    skipWhen_ :: IO Bool -> a -> a
 
 instance SuiteOrTest Suite where
 	skipIf_ skip s@(Suite name children) = if skip

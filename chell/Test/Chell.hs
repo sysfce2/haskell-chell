@@ -156,8 +156,9 @@ assertionFailed :: String -> Assertion
 assertionFailed = AssertionFailed
 
 -- | See 'assert' and 'expect'.
-class IsAssertion a where
-	runAssertion :: a -> IO Assertion
+class IsAssertion a
+  where
+    runAssertion :: a -> IO Assertion
 
 instance IsAssertion Assertion where
 	runAssertion = return
@@ -512,9 +513,10 @@ equalDiff' label norm x y = checkDiff (items x) (items y) where
 	errorMsg diff = label ++ ": items differ\n" ++ diff
 
 -- | Class for types which can be treated as text; see 'equalLines'.
-class IsText a where
-	toLines :: a -> [a]
-	unpack :: a -> String
+class IsText a
+  where
+    toLines :: a -> [a]
+    unpack :: a -> String
 
 instance IsText String where
 	toLines = lines

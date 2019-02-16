@@ -42,33 +42,38 @@ optionType_ColorMode = optionType "ColorMode" ColorModeAuto parseMode showMode w
 		ColorModeNever -> "never"
 		ColorModeAuto -> "auto"
 
-instance Options MainOptions where
-	defineOptions = pure MainOptions
-		<*> defineOption optionType_bool (\o -> o
-			{ optionShortFlags = ['v']
-			, optionLongFlags = ["verbose"]
-			, optionDefault = False
-			, optionDescription = "Print more output."
-			})
+instance Options MainOptions
+  where
+    defineOptions = pure MainOptions
+        <*> defineOption optionType_bool
+              (\o -> o
+                  { optionShortFlags = ['v']
+                  , optionLongFlags = ["verbose"]
+                  , optionDefault = False
+                  , optionDescription = "Print more output."
+                  }
+              )
 
-		<*> simpleOption "xml-report" ""
-		    "Write a parsable report to a given path, in XML."
-		<*> simpleOption "json-report" ""
-		    "Write a parsable report to a given path, in JSON."
-		<*> simpleOption "text-report" ""
-		    "Write a human-readable report to a given path."
+        <*> simpleOption "xml-report" ""
+                "Write a parsable report to a given path, in XML."
+        <*> simpleOption "json-report" ""
+                "Write a parsable report to a given path, in JSON."
+        <*> simpleOption "text-report" ""
+                "Write a human-readable report to a given path."
 
-		<*> simpleOption "seed" Nothing
-		    "The seed used for random numbers in (for example) quickcheck."
+        <*> simpleOption "seed" Nothing
+                "The seed used for random numbers in (for example) quickcheck."
 
-		<*> simpleOption "timeout" Nothing
-		    "The maximum duration of a test, in milliseconds."
+        <*> simpleOption "timeout" Nothing
+                "The maximum duration of a test, in milliseconds."
 
-		<*> defineOption optionType_ColorMode (\o -> o
-			{ optionLongFlags = ["color"]
-			, optionDefault = ColorModeAuto
-			, optionDescription = "Whether to enable color ('always', 'auto', or 'never')."
-			})
+        <*> defineOption optionType_ColorMode
+              (\o -> o
+                  { optionLongFlags = ["color"]
+                  , optionDefault = ColorModeAuto
+                  , optionDescription = "Whether to enable color ('always', 'auto', or 'never')."
+                  }
+              )
 
 -- | A simple default main function, which runs a list of tests and logs
 -- statistics to stdout.

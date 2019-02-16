@@ -44,8 +44,9 @@ import           System.Timeout (timeout)
 data Test =
   Test String (TestOptions -> IO TestResult)
 
-instance Show Test where
-	showsPrec d (Test name _) = showParen (d > 10) (showString "Test " . shows name)
+instance Show Test
+  where
+    showsPrec d (Test name _) = showParen (d > 10) (showString "Test " . shows name)
 
 -- | Define a test, with the given name and implementation.
 test :: String -> (TestOptions -> IO TestResult) -> Test
@@ -190,19 +191,30 @@ class SuiteOrTest a
     skipIf_ :: Bool -> a -> a
     skipWhen_ :: IO Bool -> a -> a
 
-instance SuiteOrTest Suite where
-	skipIf_ skip s@(Suite name children) = if skip
-		then Suite name (map (skipIf_ skip) children)
-		else s
-	skipWhen_ p (Suite name children) = Suite name (map (skipWhen_ p) children)
+instance SuiteOrTest Suite
+  where
+    skipIf_ skip s@(Suite name children) =
+        if skip
+            then Suite name (map (skipIf_ skip) children)
+            else s
 
-instance SuiteOrTest Test where
-	skipIf_ skip t@(Test name _) = if skip
-		then Test name (\_ -> return TestSkipped)
-		else t
-	skipWhen_ p (Test name io) = Test name (\opts -> do
-		skip <- p
-		if skip then return TestSkipped else io opts)
+    skipWhen_ p (Suite name children) =
+        Suite name (map (skipWhen_ p) children)
+
+instance SuiteOrTest Test
+  where
+    skipIf_ skip t@(Test name _) =
+        if skip
+            then Test name (\_ -> return TestSkipped)
+            else t
+
+    skipWhen_ p (Test name io) =
+        Test name
+            (\opts ->
+              do
+                skip <- p
+                if skip then return TestSkipped else io opts
+            )
 
 -- | Conditionally skip tests. Use this to avoid commenting out tests
 -- which are currently broken, or do not work on the current platform.

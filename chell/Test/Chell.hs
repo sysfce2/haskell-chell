@@ -160,16 +160,23 @@ class IsAssertion a
   where
     runAssertion :: a -> IO Assertion
 
-instance IsAssertion Assertion where
-	runAssertion = return
+instance IsAssertion Assertion
+  where
+    runAssertion = return
 
-instance IsAssertion Bool where
-	runAssertion x = return $ if x
-		then assertionPassed
-		else assertionFailed "boolean assertion failed"
+instance IsAssertion Bool
+  where
+    runAssertion x =
+      return
+        (
+          if x
+            then assertionPassed
+            else assertionFailed "boolean assertion failed"
+        )
 
-instance IsAssertion a => IsAssertion (IO a) where
-	runAssertion x = x >>= runAssertion
+instance IsAssertion a => IsAssertion (IO a)
+  where
+    runAssertion x = x >>= runAssertion
 
 type TestState = (IORef [(String, String)], IORef [IO ()], [Failure])
 
@@ -178,25 +185,39 @@ newtype Assertions a =
   Assertions
     { unAssertions :: TestState -> IO (Maybe a, TestState) }
 
-instance Functor Assertions where
-	fmap = liftM
+instance Functor Assertions
+  where
+    fmap = liftM
 
-instance Control.Applicative.Applicative Assertions where
-	pure = return
-	(<*>) = ap
+instance Control.Applicative.Applicative Assertions
+  where
+    pure = return
+    (<*>) = ap
 
-instance Monad Assertions where
-	return x = Assertions (\s -> return (Just x, s))
-	m >>= f = Assertions (\s -> do
-		(maybe_a, s') <- unAssertions m s
-		case maybe_a of
-			Nothing -> return (Nothing, s')
-			Just a -> unAssertions (f a) s')
+instance Monad Assertions
+  where
+    return x =
+        Assertions (\s -> return (Just x, s))
 
-instance MonadIO Assertions where
-	liftIO io = Assertions (\s -> do
-		x <- io
-		return (Just x, s))
+    m >>= f =
+        Assertions
+            (\s ->
+              do
+                (maybe_a, s') <- unAssertions m s
+                case maybe_a of
+                    Nothing -> return (Nothing, s')
+                    Just a -> unAssertions (f a) s'
+            )
+
+instance MonadIO Assertions
+  where
+    liftIO io =
+        Assertions
+            (\s ->
+              do
+                x <- io
+                return (Just x, s)
+            )
 
 -- | Convert a sequence of pass/fail assertions into a runnable test.
 --
@@ -518,27 +539,32 @@ class IsText a
     toLines :: a -> [a]
     unpack :: a -> String
 
-instance IsText String where
-	toLines = lines
-	unpack = id
+instance IsText String
+  where
+    toLines = lines
+    unpack = id
 
-instance IsText Text where
-	toLines = Data.Text.lines
-	unpack = Data.Text.unpack
+instance IsText Text
+  where
+    toLines = Data.Text.lines
+    unpack = Data.Text.unpack
 
-instance IsText Data.Text.Lazy.Text where
-	toLines = Data.Text.Lazy.lines
-	unpack = Data.Text.Lazy.unpack
+instance IsText Data.Text.Lazy.Text
+  where
+    toLines = Data.Text.Lazy.lines
+    unpack = Data.Text.Lazy.unpack
 
 -- | Uses @Data.ByteString.Char8@
-instance IsText Data.ByteString.Char8.ByteString where
-	toLines = Data.ByteString.Char8.lines
-	unpack = Data.ByteString.Char8.unpack
+instance IsText Data.ByteString.Char8.ByteString
+  where
+    toLines = Data.ByteString.Char8.lines
+    unpack = Data.ByteString.Char8.unpack
 
 -- | Uses @Data.ByteString.Lazy.Char8@
-instance IsText Data.ByteString.Lazy.Char8.ByteString where
-	toLines = Data.ByteString.Lazy.Char8.lines
-	unpack = Data.ByteString.Lazy.Char8.unpack
+instance IsText Data.ByteString.Lazy.Char8.ByteString
+  where
+    toLines = Data.ByteString.Lazy.Char8.lines
+    unpack = Data.ByteString.Lazy.Char8.unpack
 
 -- | Assert that two pieces of text are equal. This uses a diff algorithm
 -- to check line-by-line, so the error message will be easier to read on

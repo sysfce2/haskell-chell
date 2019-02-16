@@ -4,9 +4,9 @@ module Test.Chell.Output
 	( Output
 	, outputStart
 	, outputResult
-	
+
 	, ColorMode(..)
-	
+
 	, plainOutput
 	, colorOutput
 	) where

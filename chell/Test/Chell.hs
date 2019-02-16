@@ -38,21 +38,21 @@
 -- >PASS: 2 tests run, 2 tests passed
 module Test.Chell
 	(
-	
+
 	-- * Main
 	  defaultMain
-	
+
 	-- * Test suites
 	, Suite
 	, suite
 	, suiteName
 	, suiteTests
-	
+
 	-- ** Skipping some tests
 	, SuiteOrTest
 	, skipIf
 	, skipWhen
-	
+
 	-- * Basic testing library
 	, Assertions
 	, assertions
@@ -68,7 +68,7 @@ module Test.Chell
 	, afterTest
 	, requireLeft
 	, requireRight
-	
+
 	-- ** Built-in assertions
 	, equal
 	, notEqual
@@ -88,29 +88,29 @@ module Test.Chell
 	, IsText
 	, equalLines
 	, equalLinesWith
-	
+
 	-- * Custom test types
 	, Test
 	, test
 	, testName
 	, runTest
-	
+
 	-- ** Test results
 	, TestResult (..)
-	
+
 	-- *** Failures
 	, Failure
 	, failure
 	, failureLocation
 	, failureMessage
-	
+
 	-- *** Failure locations
 	, Location
 	, location
 	, locationFile
 	, locationModule
 	, locationLine
-	
+
 	-- ** Test options
 	, TestOptions
 	, defaultTestOptions
@@ -207,9 +207,9 @@ assertions :: String -> Assertions a -> Test
 assertions name testm = test name $ \opts -> do
 	noteRef <- newIORef []
 	afterTestRef <- newIORef []
-	
+
 	let getNotes = fmap reverse (readIORef noteRef)
-	
+
 	let getResult = do
 		res <- unAssertions testm (noteRef, afterTestRef, [])
 		case res of
@@ -219,7 +219,7 @@ assertions name testm = test name $ \opts -> do
 			(_, (_, _, fs)) -> do
 				notes <- getNotes
 				return (TestFailed notes (reverse fs))
-	
+
 	Control.Exception.finally
 		(handleJankyIO opts getResult getNotes)
 		(runAfterTest afterTestRef)
@@ -414,7 +414,7 @@ notEqual x y = assertBool (x /= y) ("notEqual: " ++ show x ++ " is equal to " ++
 equalWithin :: (Real a, Show a) => a -> a
                                 -> a -- ^ delta
                                 -> Assertion
-equalWithin x y delta = assertBool 
+equalWithin x y delta = assertBool
 	((x - delta <= y) && (x + delta >= y))
 	("equalWithin: " ++ show x ++ " is not within " ++ show delta ++ " of " ++ show y)
 
@@ -498,15 +498,15 @@ equalDiff' label norm x y = checkDiff (items x) (items y) where
 	items = norm . foldMap (:[])
 	checkDiff xs ys = case checkItems (Patience.diff xs ys) of
 		(same, diff) -> assertBool same diff
-	
+
 	checkItems diffItems = case foldl' checkItem (True, []) diffItems of
 		(same, diff) -> (same, errorMsg (intercalate "\n" (reverse diff)))
-	
+
 	checkItem (same, acc) item = case item of
 		Patience.Old t -> (False, ("\t- " ++ show t) : acc)
 		Patience.New t -> (False, ("\t+ " ++ show t) : acc)
 		Patience.Both t _-> (same, ("\t  " ++ show t) : acc)
-	
+
 	errorMsg diff = label ++ ": items differ\n" ++ diff
 
 -- | Class for types which can be treated as text; see 'equalLines'.
@@ -551,13 +551,13 @@ checkLinesDiff :: (Ord a, IsText a) => String -> [a] -> [a] -> Assertion
 checkLinesDiff label = go where
 	go xs ys = case checkItems (Patience.diff xs ys) of
 		(same, diff) -> assertBool same diff
-	
+
 	checkItems diffItems = case foldl' checkItem (True, []) diffItems of
 		(same, diff) -> (same, errorMsg (intercalate "\n" (reverse diff)))
-	
+
 	checkItem (same, acc) item = case item of
 		Patience.Old t -> (False, ("\t- " ++ unpack t) : acc)
 		Patience.New t -> (False, ("\t+ " ++ unpack t) : acc)
 		Patience.Both t _-> (same, ("\t  " ++ unpack t) : acc)
-	
+
 	errorMsg diff = label ++ ": lines differ\n" ++ diff

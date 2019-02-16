@@ -2,36 +2,36 @@ module Test.Chell.Types
 	( Test
 	, test
 	, testName
-	
+
 	, TestOptions
 	, defaultTestOptions
 	, testOptionSeed
 	, testOptionTimeout
-	
+
 	, TestResult(TestPassed, TestSkipped, TestFailed, TestAborted)
-	
+
 	, Failure
 	, failure
 	, failureLocation
 	, failureMessage
-	
+
 	, Location
 	, location
 	, locationFile
 	, locationModule
 	, locationLine
-	
+
 	, Suite
 	, suite
 	, suiteName
 	, suiteTests
-	
+
 	, SuiteOrTest
 	, skipIf
 	, skipWhen
-	
+
 	, runTest
-	
+
 	, handleJankyIO
 	) where
 
@@ -58,7 +58,7 @@ testName (Test name _) = name
 -- test should be run.
 data TestOptions = TestOptions
 	{
-	
+
 	-- | Get the RNG seed for this test run. The seed is generated once, in
 	-- 'defaultMain', and used for all tests. It is also logged to reports
 	-- using a note.
@@ -69,7 +69,7 @@ data TestOptions = TestOptions
 	-- 'testOptionSeed' is a field accessor, and can be used to update
 	-- a 'TestOptions' value.
 	  testOptionSeed :: Int
-	
+
 	-- | An optional timeout, in millseconds. Tests which run longer than
 	-- this timeout will be aborted.
 	--
@@ -106,18 +106,18 @@ defaultTestOptions = TestOptions
 data TestResult
 	-- | The test passed, and generated the given notes.
 	= TestPassed [(String, String)]
-	
+
 	-- | The test did not run, because it was skipped with 'skipIf'
 	-- or 'skipWhen'.
 	| TestSkipped
-	
+
 	-- | The test failed, generating the given notes and failures.
 	| TestFailed [(String, String)] [Failure]
-	
+
 	-- | The test aborted with an error message, and generated the given
 	-- notes.
 	| TestAborted [(String, String)] String
-	
+
 	-- Not exported; used to generate GHC warnings for users who don't
 	-- provide a default case.
 	| TestResultCaseMustHaveDefault
@@ -132,7 +132,7 @@ data Failure = Failure
 	-- 'failureLocation' is a field accessor, and can be used to update
 	-- a 'Failure' value.
 	  failureLocation :: Maybe Location
-	
+
 	-- | If given, a message which explains why the test failed.
 	--
 	-- 'failureMessage' is a field accessor, and can be used to update
@@ -153,13 +153,13 @@ data Location = Location
 	-- 'locationFile' is a field accessor, and can be used to update
 	-- a 'Location' value.
 	  locationFile :: String
-	
+
 	-- | A Haskell module name, or empty if not provided.
 	--
 	-- 'locationModule' is a field accessor, and can be used to update
 	-- a 'Location' value.
 	, locationModule :: String
-	
+
 	-- | A line number, or Nothing if not provided.
 	--
 	-- 'locationLine' is a field accessor, and can be used to update
@@ -280,9 +280,9 @@ suiteTests = go "" where
 	prefixed prefix str = if null prefix
 		then str
 		else prefix ++ "." ++ str
-	
+
 	go prefix (Suite name children) = concatMap (step (prefixed prefix name)) children
-	
+
 	step prefix (Test name io) = [Test (prefixed prefix name) io]
 
 -- | Run a test, wrapped in error handlers. This will return 'TestAborted' if
@@ -295,11 +295,11 @@ handleJankyIO opts getResult getNotes = do
 	let withTimeout = case testOptionTimeout opts of
 		Just time -> timeout (time * 1000)
 		Nothing -> fmap Just
-	
+
 	let hitTimeout = str where
 		str = "Test timed out after " ++ show time ++ " milliseconds"
 		Just time = testOptionTimeout opts
-	
+
 	tried <- withTimeout (try getResult)
 	case tried of
 		Just (Right ret) -> return ret
@@ -314,6 +314,6 @@ try :: IO a -> IO (Either String a)
 try io = catches (fmap Right io) [Handler handleAsync, Handler handleExc] where
 	handleAsync :: Control.Exception.AsyncException -> IO a
 	handleAsync = throwIO
-	
+
 	handleExc :: SomeException -> IO (Either String a)
 	handleExc exc = return (Left ("Test aborted due to exception: " ++ show exc))

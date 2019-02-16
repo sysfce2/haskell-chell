@@ -37,9 +37,9 @@ property name prop = Chell.test name $ \opts ->
 property name prop = Chell.test name $ \opts -> do
 	term <- Text.newNullTerminal
 #endif
-	
+
 	let seed = Chell.testOptionSeed opts
-	
+
 	let args = QuickCheck.stdArgs
 	let state = State.MkState
 		{ State.terminal = term
@@ -84,7 +84,7 @@ property name prop = Chell.test name $ \opts -> do
 		, State.numTotMaxShrinks = QuickCheck.maxShrinks args
 #endif
 		}
-	
+
 #if MIN_VERSION_QuickCheck(2,12,0)
 	result <- Test.test state (QuickCheck.property prop)
 #else

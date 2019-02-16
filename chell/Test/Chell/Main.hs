@@ -49,20 +49,20 @@ instance Options MainOptions where
 			, optionDefault = False
 			, optionDescription = "Print more output."
 			})
-		
+
 		<*> simpleOption "xml-report" ""
 		    "Write a parsable report to a given path, in XML."
 		<*> simpleOption "json-report" ""
 		    "Write a parsable report to a given path, in JSON."
 		<*> simpleOption "text-report" ""
 		    "Write a human-readable report to a given path."
-		
+
 		<*> simpleOption "seed" Nothing
 		    "The seed used for random numbers in (for example) quickcheck."
-		
+
 		<*> simpleOption "timeout" Nothing
 		    "The maximum duration of a test, in milliseconds."
-		
+
 		<*> defineOption optionType_ColorMode (\o -> o
 			{ optionLongFlags = ["color"]
 			, optionDefault = ColorModeAuto
@@ -88,13 +88,13 @@ defaultMain suites = runCommand $ \opts args -> do
 		{ testOptionSeed = seed
 		, testOptionTimeout = timeout
 		}
-	
+
 	-- find which tests to run
 	let allTests = concatMap suiteTests suites
 	let tests = if null args
 		then allTests
 		else filter (matchesFilter args) allTests
-	
+
 	-- output mode
 	output <- case optColor opts of
 		ColorModeNever -> return (plainOutput (optVerbose opts))
@@ -104,14 +104,14 @@ defaultMain suites = runCommand $ \opts args -> do
 			return $ if isTerm
 				then colorOutput (optVerbose opts)
 				else plainOutput (optVerbose opts)
-	
+
 	-- run tests
 	results <- forM tests $ \t -> do
 		outputStart output t
 		result <- runTest t testOptions
 		outputResult output t result
 		return (t, result)
-	
+
 	-- generate reports
 	let reports = getReports opts
 	forM_ reports $ \(path, fmt, toText) ->
@@ -119,11 +119,11 @@ defaultMain suites = runCommand $ \opts args -> do
 			when (optVerbose opts) $ do
 				putStrLn ("Writing " ++ fmt ++ " report to " ++ show path)
 			hPutStr h (toText results)
-	
+
 	let stats = resultStatistics results
 	let (_, _, failed, aborted) = stats
 	putStrLn (formatResultStatistics stats)
-	
+
 	if failed == 0 && aborted == 0
 		then exitSuccess
 		else exitFailure
@@ -150,12 +150,12 @@ getReports opts = concat [xml, json, text] where
 jsonReport :: [(Test, TestResult)] -> String
 jsonReport results = Writer.execWriter writer where
 	tell = Writer.tell
-	
+
 	writer = do
 		tell "{\"test-runs\": ["
 		commas results tellResult
 		tell "]}"
-	
+
 	tellResult (t, result) = case result of
 		TestPassed notes -> do
 			tell "{\"test\": \""
@@ -201,13 +201,13 @@ jsonReport results = Writer.execWriter writer where
 			tellNotes notes
 			tell "}"
 		_ -> return ()
-	
+
 	escapeJSON = concatMap (\c -> case c of
 		'"' -> "\\\""
 		'\\' -> "\\\\"
 		_ | ord c <= 0x1F -> printf "\\u%04X" (ord c)
 		_ -> [c])
-	
+
 	tellNotes notes = do
 		tell ", \"notes\": ["
 		commas notes $ \(key, value) -> do
@@ -217,7 +217,7 @@ jsonReport results = Writer.execWriter writer where
 			tell (escapeJSON value)
 			tell "\"}"
 		tell "]"
-	
+
 	commas xs block = State.evalStateT (commaState xs block) False
 	commaState xs block = forM_ xs $ \x -> do
 		let tell' = lift . Writer.tell
@@ -231,13 +231,13 @@ jsonReport results = Writer.execWriter writer where
 xmlReport :: [(Test, TestResult)] -> String
 xmlReport results = Writer.execWriter writer where
 	tell = Writer.tell
-	
+
 	writer = do
 		tell "<?xml version=\"1.0\" encoding=\"utf8\"?>\n"
 		tell "<report xmlns='urn:john-millikin:chell:report:1'>\n"
 		mapM_ tellResult results
 		tell "</report>"
-	
+
 	tellResult (t, result) = case result of
 		TestPassed notes -> do
 			tell "\t<test-run test='"
@@ -283,7 +283,7 @@ xmlReport results = Writer.execWriter writer where
 			tellNotes notes
 			tell "\t</test-run>\n"
 		_ -> return ()
-	
+
 	escapeXML = concatMap (\c -> case c of
 		'&' -> "&amp;"
 		'<' -> "&lt;"
@@ -291,7 +291,7 @@ xmlReport results = Writer.execWriter writer where
 		'"' -> "&quot;"
 		'\'' -> "&apos;"
 		_ -> [c])
-	
+
 	tellNotes notes = forM_ notes $ \(key, value) -> do
 		tell "\t\t<note key=\""
 		tell (escapeXML key)
@@ -302,12 +302,12 @@ xmlReport results = Writer.execWriter writer where
 textReport :: [(Test, TestResult)] -> String
 textReport results = Writer.execWriter writer where
 	tell = Writer.tell
-	
+
 	writer = do
 		forM_ results tellResult
 		let stats = resultStatistics results
 		tell (formatResultStatistics stats)
-	
+
 	tellResult (t, result) = case result of
 		TestPassed notes -> do
 			tell (replicate 70 '=')
@@ -357,7 +357,7 @@ textReport results = Writer.execWriter writer where
 			tell msg
 			tell "\n\n"
 		_ -> return ()
-	
+
 	tellNotes notes = forM_ notes $ \(key, value) -> do
 		tell key
 		tell "="
@@ -374,7 +374,7 @@ formatResultStatistics stats = Writer.execWriter writer where
 		let putNum comma n what = Writer.tell $ if n == 1
 			then comma ++ "1 test " ++ what
 			else comma ++ show n ++ " tests " ++ what
-		
+
 		let total = sum [passed, skipped, failed, aborted]
 		putNum "" total "run"
 		(putNum ", " passed "passed")

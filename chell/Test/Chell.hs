@@ -143,9 +143,9 @@ import           Test.Chell.Types
 -- | A single pass/fail assertion. Failed assertions include an explanatory
 -- message.
 data Assertion
-	= AssertionPassed
-	| AssertionFailed String
-	deriving (Eq, Show)
+  = AssertionPassed
+  | AssertionFailed String
+  deriving (Eq, Show)
 
 -- | See 'Assertion'.
 assertionPassed :: Assertion
@@ -173,7 +173,9 @@ instance IsAssertion a => IsAssertion (IO a) where
 type TestState = (IORef [(String, String)], IORef [IO ()], [Failure])
 
 -- | See 'assertions'.
-newtype Assertions a = Assertions { unAssertions :: TestState -> IO (Maybe a, TestState) }
+newtype Assertions a =
+  Assertions
+    { unAssertions :: TestState -> IO (Maybe a, TestState) }
 
 instance Functor Assertions where
 	fmap = liftM

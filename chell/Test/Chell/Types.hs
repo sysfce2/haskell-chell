@@ -41,7 +41,8 @@ import           System.Timeout (timeout)
 
 -- | A 'Test' is, essentially, an IO action that returns a 'TestResult'. Tests
 -- are aggregated into suites (see 'Suite').
-data Test = Test String (TestOptions -> IO TestResult)
+data Test =
+  Test String (TestOptions -> IO TestResult)
 
 instance Show Test where
 	showsPrec d (Test name _) = showParen (d > 10) (showString "Test " . shows name)
@@ -56,31 +57,32 @@ testName (Test name _) = name
 
 -- | Test options are passed to each test, and control details about how the
 -- test should be run.
-data TestOptions = TestOptions
-	{
+data TestOptions =
+  TestOptions
+    {
 
-	-- | Get the RNG seed for this test run. The seed is generated once, in
-	-- 'defaultMain', and used for all tests. It is also logged to reports
-	-- using a note.
-	--
-	-- When using 'defaultMain', users may specify a seed using the
-	-- @--seed@ command-line option.
-	--
-	-- 'testOptionSeed' is a field accessor, and can be used to update
-	-- a 'TestOptions' value.
-	  testOptionSeed :: Int
+    -- | Get the RNG seed for this test run. The seed is generated once, in
+    -- 'defaultMain', and used for all tests. It is also logged to reports
+    -- using a note.
+    --
+    -- When using 'defaultMain', users may specify a seed using the
+    -- @--seed@ command-line option.
+    --
+    -- 'testOptionSeed' is a field accessor, and can be used to update
+    -- a 'TestOptions' value.
+      testOptionSeed :: Int
 
-	-- | An optional timeout, in millseconds. Tests which run longer than
-	-- this timeout will be aborted.
-	--
-	-- When using 'defaultMain', users may specify a timeout using the
-	-- @--timeout@ command-line option.
-	--
-	-- 'testOptionTimeout' is a field accessor, and can be used to update
-	-- a 'TestOptions' value.
-	, testOptionTimeout :: Maybe Int
-	}
-	deriving (Show, Eq)
+    -- | An optional timeout, in millseconds. Tests which run longer than
+    -- this timeout will be aborted.
+    --
+    -- When using 'defaultMain', users may specify a timeout using the
+    -- @--timeout@ command-line option.
+    --
+    -- 'testOptionTimeout' is a field accessor, and can be used to update
+    -- a 'TestOptions' value.
+    , testOptionTimeout :: Maybe Int
+    }
+    deriving (Show, Eq)
 
 -- | Default test options.
 --
@@ -104,69 +106,71 @@ defaultTestOptions = TestOptions
 -- who pattern-match against the 'TestResult' constructors should include a
 -- default case. If no default case is provided, a warning will be issued.
 data TestResult
-	-- | The test passed, and generated the given notes.
-	= TestPassed [(String, String)]
+  -- | The test passed, and generated the given notes.
+  = TestPassed [(String, String)]
 
-	-- | The test did not run, because it was skipped with 'skipIf'
-	-- or 'skipWhen'.
-	| TestSkipped
+  -- | The test did not run, because it was skipped with 'skipIf'
+  -- or 'skipWhen'.
+  | TestSkipped
 
-	-- | The test failed, generating the given notes and failures.
-	| TestFailed [(String, String)] [Failure]
+  -- | The test failed, generating the given notes and failures.
+  | TestFailed [(String, String)] [Failure]
 
-	-- | The test aborted with an error message, and generated the given
-	-- notes.
-	| TestAborted [(String, String)] String
+  -- | The test aborted with an error message, and generated the given
+  -- notes.
+  | TestAborted [(String, String)] String
 
-	-- Not exported; used to generate GHC warnings for users who don't
-	-- provide a default case.
-	| TestResultCaseMustHaveDefault
-	deriving (Show, Eq)
+  -- Not exported; used to generate GHC warnings for users who don't
+  -- provide a default case.
+  | TestResultCaseMustHaveDefault
+  deriving (Show, Eq)
 
 -- | Contains details about a test failure.
-data Failure = Failure
-	{
-	-- | If given, the location of the failing assertion, expectation,
-	-- etc.
-	--
-	-- 'failureLocation' is a field accessor, and can be used to update
-	-- a 'Failure' value.
-	  failureLocation :: Maybe Location
+data Failure =
+  Failure
+    {
+    -- | If given, the location of the failing assertion, expectation,
+    -- etc.
+    --
+    -- 'failureLocation' is a field accessor, and can be used to update
+    -- a 'Failure' value.
+      failureLocation :: Maybe Location
 
-	-- | If given, a message which explains why the test failed.
-	--
-	-- 'failureMessage' is a field accessor, and can be used to update
-	-- a 'Failure' value.
-	, failureMessage :: String
-	}
-	deriving (Show, Eq)
+    -- | If given, a message which explains why the test failed.
+    --
+    -- 'failureMessage' is a field accessor, and can be used to update
+    -- a 'Failure' value.
+    , failureMessage :: String
+    }
+    deriving (Show, Eq)
 
 -- | An empty 'Failure'; use the field accessors to populate this value.
 failure :: Failure
 failure = Failure Nothing ""
 
 -- | Contains details about a location in the test source file.
-data Location = Location
-	{
-	-- | A path to a source file, or empty if not provided.
-	--
-	-- 'locationFile' is a field accessor, and can be used to update
-	-- a 'Location' value.
-	  locationFile :: String
+data Location =
+  Location
+    {
+    -- | A path to a source file, or empty if not provided.
+    --
+    -- 'locationFile' is a field accessor, and can be used to update
+    -- a 'Location' value.
+      locationFile :: String
 
-	-- | A Haskell module name, or empty if not provided.
-	--
-	-- 'locationModule' is a field accessor, and can be used to update
-	-- a 'Location' value.
-	, locationModule :: String
+    -- | A Haskell module name, or empty if not provided.
+    --
+    -- 'locationModule' is a field accessor, and can be used to update
+    -- a 'Location' value.
+    , locationModule :: String
 
-	-- | A line number, or Nothing if not provided.
-	--
-	-- 'locationLine' is a field accessor, and can be used to update
-	-- a 'Location' value.
-	, locationLine :: Maybe Integer
-	}
-	deriving (Show, Eq)
+    -- | A line number, or Nothing if not provided.
+    --
+    -- 'locationLine' is a field accessor, and can be used to update
+    -- a 'Location' value.
+    , locationLine :: Maybe Integer
+    }
+    deriving (Show, Eq)
 
 -- | An empty 'Location'; use the field accessors to populate this value.
 location :: Location
@@ -177,8 +181,9 @@ location = Location "" "" Nothing
 -- Note: earlier versions of Chell permitted arbitrary nesting of test suites.
 -- This feature proved too unwieldy, and was removed. A similar result can be
 -- achieved with 'suiteTests'; see the documentation for 'suite'.
-data Suite = Suite String [Test]
-	deriving (Show)
+data Suite =
+  Suite String [Test]
+  deriving Show
 
 class SuiteOrTest a where
 	skipIf_ :: Bool -> a -> a

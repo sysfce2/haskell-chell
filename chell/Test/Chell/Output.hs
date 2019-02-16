@@ -19,10 +19,11 @@ import qualified System.Console.ANSI as AnsiTerminal
 
 import           Test.Chell.Types
 
-data Output = Output
-	{ outputStart :: Test -> IO ()
-	, outputResult :: Test -> TestResult -> IO ()
-	}
+data Output =
+  Output
+    { outputStart :: Test -> IO ()
+    , outputResult :: Test -> TestResult -> IO ()
+    }
 
 plainOutput :: Bool -> Output
 plainOutput v = Output
@@ -59,10 +60,10 @@ plainOutputResult _ t (TestAborted notes msg) = do
 plainOutputResult _ _ _ = return ()
 
 data ColorMode
-	= ColorModeAuto
-	| ColorModeAlways
-	| ColorModeNever
-	deriving (Enum)
+  = ColorModeAuto
+  | ColorModeAlways
+  | ColorModeNever
+  deriving (Enum)
 
 colorOutput :: Bool -> Output
 #ifndef MIN_VERSION_ansi_terminal

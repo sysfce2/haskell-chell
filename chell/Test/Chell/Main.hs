@@ -19,15 +19,16 @@ import           Options
 import           Test.Chell.Output
 import           Test.Chell.Types
 
-data MainOptions = MainOptions
-	{ optVerbose :: Bool
-	, optXmlReport :: String
-	, optJsonReport :: String
-	, optTextReport :: String
-	, optSeed :: Maybe Int
-	, optTimeout :: Maybe Int
-	, optColor :: ColorMode
-	}
+data MainOptions =
+  MainOptions
+    { optVerbose :: Bool
+    , optXmlReport :: String
+    , optJsonReport :: String
+    , optTextReport :: String
+    , optSeed :: Maybe Int
+    , optTimeout :: Maybe Int
+    , optColor :: ColorMode
+    }
 
 optionType_ColorMode :: OptionType ColorMode
 optionType_ColorMode = optionType "ColorMode" ColorModeAuto parseMode showMode where

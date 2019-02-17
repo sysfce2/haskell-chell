@@ -19,10 +19,10 @@ import Test.Chell
 
 tests :: Suite
 tests =
-    suite "tests" $
-      do
-        test_Numbers
-        test_Text
+    suite "tests"
+        [ test_Numbers
+        , test_Text
+        ]
 
 test_Numbers :: Test
 test_Numbers =
@@ -56,10 +56,10 @@ import Test.Chell.QuickCheck
 
 tests :: Suite
 tests =
-  suite "tests" $
-    do
-      test_Equality
-      test_Increment
+  suite "tests"
+      [ test_Equality
+      , test_Increment
+      ]
 
 test_Equality :: Test
 test_Equality = property "equality" (\x -> x == x)

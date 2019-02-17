@@ -1,5 +1,5 @@
 name: chell
-version: 0.4.0.2
+version: 0.5
 
 synopsis: A simple and intuitive library for automated testing.
 category: Testing
@@ -53,6 +53,9 @@ description:
   $ ./chell-example
   PASS: 2 tests run, 2 tests passed
   @
+
+extra-source-files:
+  changelog.md
 
 source-repository head
   type: git

@@ -12,6 +12,9 @@ homepage: https://john-millikin.com/software/chell/
 
 synopsis: QuickCheck support for the Chell testing library
 
+description:
+  QuickCheck support for the <https://hackage.haskell.org/package/chell Chell> testing library.
+
 source-repository head
   type: git
   location: https://john-millikin.com/code/chell/

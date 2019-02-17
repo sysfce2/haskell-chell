@@ -12,6 +12,9 @@ homepage: https://john-millikin.com/software/chell/
 
 synopsis: HUnit support for the Chell testing library
 
+description:
+  HUnit support for the <https://hackage.haskell.org/package/chell Chell> testing library.
+
 source-repository head
   type: git
   location: https://john-millikin.com/code/chell/

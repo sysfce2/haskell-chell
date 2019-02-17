@@ -3,12 +3,13 @@ version: 0.2.5.1
 license: MIT
 license-file: license.txt
 author: John Millikin <john@john-millikin.com>
-maintainer: John Millikin <john@john-millikin.com>
+maintainer: Chris Martin, Julie Moronuki
 build-type: Simple
 cabal-version: >= 1.6
 category: Testing
-bug-reports: mailto:jmillikin@gmail.com
-homepage: https://john-millikin.com/software/chell/
+
+homepage:    https://github.com/typeclasses/chell
+bug-reports: https://github.com/typeclasses/chell/issues
 
 synopsis: QuickCheck support for the Chell testing library
 

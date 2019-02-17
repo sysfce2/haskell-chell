@@ -56,12 +56,7 @@ description:
 
 source-repository head
   type: git
-  location: https://john-millikin.com/code/chell/
-
-source-repository this
-  type: git
-  location: https://john-millikin.com/code/chell/
-  tag: chell_0.4.0.2
+  location: https://github.com/typeclasses/chell.git
 
 flag color-output
   description: Enable colored output in test results

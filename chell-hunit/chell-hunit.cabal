@@ -21,12 +21,7 @@ tested-with: GHC == 8.2.2, GHC == 8.4.4, GHC == 8.6.3
 
 source-repository head
   type: git
-  location: https://john-millikin.com/code/chell/
-
-source-repository this
-  type: git
-  location: https://john-millikin.com/code/chell/
-  tag: chell-hunit_0.2.1
+  location: https://github.com/typeclasses/chell.git
 
 library
   ghc-options: -Wall

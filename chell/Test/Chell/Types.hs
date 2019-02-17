@@ -96,10 +96,11 @@ data TestOptions =
 -- >Test.Chell> testOptionTimeout defaultTestOptions
 -- >Nothing
 defaultTestOptions :: TestOptions
-defaultTestOptions = TestOptions
-	{ testOptionSeed = 0
-	, testOptionTimeout = Nothing
-	}
+defaultTestOptions =
+  TestOptions
+    { testOptionSeed = 0
+    , testOptionTimeout = Nothing
+    }
 
 -- | The result of running a test.
 --
@@ -294,14 +295,17 @@ suiteName (Suite name _) = name
 -- >*Main> suiteTests tests_Math
 -- >[Test "math.addition",Test "math.subtraction"]
 suiteTests :: Suite -> [Test]
-suiteTests = go "" where
-	prefixed prefix str = if null prefix
-		then str
-		else prefix ++ "." ++ str
+suiteTests = go ""
+  where
+    prefixed prefix str =
+        if null prefix
+            then str
+            else prefix ++ "." ++ str
 
-	go prefix (Suite name children) = concatMap (step (prefixed prefix name)) children
+    go prefix (Suite name children) =
+        concatMap (step (prefixed prefix name)) children
 
-	step prefix (Test name io) = [Test (prefixed prefix name) io]
+    step prefix (Test name io) = [Test (prefixed prefix name) io]
 
 -- | Run a test, wrapped in error handlers. This will return 'TestAborted' if
 -- the test throws an exception or times out.
@@ -309,29 +313,37 @@ runTest :: Test -> TestOptions -> IO TestResult
 runTest (Test _ io) options = handleJankyIO options (io options) (return [])
 
 handleJankyIO :: TestOptions -> IO TestResult -> IO [(String, String)] -> IO TestResult
-handleJankyIO opts getResult getNotes = do
-	let withTimeout = case testOptionTimeout opts of
-		Just time -> timeout (time * 1000)
-		Nothing -> fmap Just
+handleJankyIO opts getResult getNotes =
+  do
+    let
+        withTimeout =
+            case testOptionTimeout opts of
+                Just time -> timeout (time * 1000)
+                Nothing -> fmap Just
 
-	let hitTimeout = str where
-		str = "Test timed out after " ++ show time ++ " milliseconds"
-		Just time = testOptionTimeout opts
+    let
+        hitTimeout = str
+          where
+            str = "Test timed out after " ++ show time ++ " milliseconds"
+            Just time = testOptionTimeout opts
 
-	tried <- withTimeout (try getResult)
-	case tried of
-		Just (Right ret) -> return ret
-		Nothing -> do
-			notes <- getNotes
-			return (TestAborted notes hitTimeout)
-		Just (Left err) -> do
-			notes <- getNotes
-			return (TestAborted notes err)
+    tried <- withTimeout (try getResult)
+    case tried of
+        Just (Right ret) -> return ret
+        Nothing ->
+          do
+            notes <- getNotes
+            return (TestAborted notes hitTimeout)
+        Just (Left err) ->
+          do
+            notes <- getNotes
+            return (TestAborted notes err)
 
 try :: IO a -> IO (Either String a)
-try io = catches (fmap Right io) [Handler handleAsync, Handler handleExc] where
-	handleAsync :: Control.Exception.AsyncException -> IO a
-	handleAsync = throwIO
+try io = catches (fmap Right io) [Handler handleAsync, Handler handleExc]
+  where
+    handleAsync :: Control.Exception.AsyncException -> IO a
+    handleAsync = throwIO
 
-	handleExc :: SomeException -> IO (Either String a)
-	handleExc exc = return (Left ("Test aborted due to exception: " ++ show exc))
+    handleExc :: SomeException -> IO (Either String a)
+    handleExc exc = return (Left ("Test aborted due to exception: " ++ show exc))

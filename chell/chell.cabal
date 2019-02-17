@@ -1,5 +1,9 @@
 name: chell
 version: 0.4.0.2
+
+synopsis: A simple and intuitive library for automated testing.
+category: Testing
+
 license: MIT
 license-file: license.txt
 author: John Millikin <john@john-millikin.com>
@@ -9,8 +13,6 @@ cabal-version: >= 1.6
 
 homepage:    https://github.com/typeclasses/chell
 bug-reports: https://github.com/typeclasses/chell/issues
-
-synopsis: A simple and intuitive library for automated testing.
 
 tested-with: GHC == 8.2.2, GHC == 8.4.4, GHC == 8.6.3
 

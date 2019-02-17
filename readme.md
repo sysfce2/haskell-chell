@@ -4,9 +4,9 @@ A quiet test runner for Haskell
 
 ## History
 
-Back in 2011 or so, the most popular Haskell test frameworks generated a lot of status output but relatively little info about why tests failed. I wrote Chell so my tests would be quiet if they passed, and give to-the-line error info on failure.
+Back in 2011 or so, the most popular Haskell test frameworks generated a lot of status output but relatively little info about why tests failed. John Millikin wrote Chell so that tests would be quiet if they passed, and give to-the-line error info on failure.
 
-It hasn't seen much development effort the past few years, and its integrations with other test tools such as QuickCheck probably don't build any more.
+It hasn't seen much development effort the past few years. As of February 2019, Chris and Julie are keeping it compiling.
 
 ## Assertions
 

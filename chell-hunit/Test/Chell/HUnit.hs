@@ -19,11 +19,14 @@ import           Test.HUnit.Lang (Assertion, Result (..), performTestCase)
 --    2 + 3 \@?= 5
 -- @
 hunit :: String -> Assertion -> Chell.Test
-hunit name io = Chell.test name chell_io where
-	chell_io _ = do
-		result <- performTestCase io
-		return $ case result of
-			Success -> Chell.TestPassed []
-			Failure _ msg -> Chell.TestFailed []
-					[Chell.failure { Chell.failureMessage = msg }]
-			Error _ msg -> Chell.TestAborted [] msg
+hunit name io = Chell.test name chell_io
+  where
+    chell_io _ =
+      do
+        result <- performTestCase io
+        return $
+            case result of
+                Success -> Chell.TestPassed []
+                Failure _ msg -> Chell.TestFailed []
+                    [Chell.failure { Chell.failureMessage = msg }]
+                Error _ msg -> Chell.TestAborted [] msg

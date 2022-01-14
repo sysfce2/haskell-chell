@@ -1,7 +1,7 @@
 cabal-version: 3.0
 
 name: chell
-version: 0.5
+version: 0.5.0.1
 
 synopsis: A simple and intuitive library for automated testing.
 category: Testing

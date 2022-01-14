@@ -1,7 +1,7 @@
 cabal-version: 3.0
 
 name: chell-quickcheck
-version: 0.2.5.2
+version: 0.2.5.3
 
 synopsis: QuickCheck support for the Chell testing library
 category: Testing

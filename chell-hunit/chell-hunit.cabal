@@ -1,7 +1,7 @@
 cabal-version: 3.0
 
 name: chell-hunit
-version: 0.3
+version: 0.3.0.1
 
 synopsis: HUnit support for the Chell testing library
 category: Testing

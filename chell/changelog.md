@@ -1,5 +1,10 @@
 # Release history for `chell`
 
+0.5.0.1 - 2021 Jan 14
+
+  * Support up to GHC 9.2
+  * Tighten various version bounds
+
 0.5 - 2019 Feb 16
 
   * Add support for `patience` 0.2

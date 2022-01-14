@@ -1,3 +1,0 @@
-resolver: "lts-13.7"
-packages: [chell, chell-hunit, chell-quickcheck]
-extra-deps: [patience-0.2.1.0]

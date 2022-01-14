@@ -1,0 +1,10 @@
+packages: chell, chell-hunit, chell-quickcheck
+
+package chell
+    flags: +color-output
+
+constraints:
+    base ^>= 4.13
+  , bytestring == 0.10.8.2
+  , QuickCheck ^>= 2.13
+  , template-haskell ^>= 2.15

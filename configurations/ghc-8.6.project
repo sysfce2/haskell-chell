@@ -1,0 +1,11 @@
+packages: chell, chell-hunit, chell-quickcheck
+
+package chell
+    flags: +color-output
+
+constraints:
+    ansi-terminal ^>= 0.9
+  , base ^>= 4.12
+  , patience == 0.2.1.0
+  , QuickCheck ^>= 2.9
+  , template-haskell ^>= 2.14

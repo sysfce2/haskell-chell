@@ -1,12 +1,31 @@
-# Release history for `chell-quickcheck`
+## 0.2.5.4
 
-0.2.5.3 - 2021 Jan 14
+Miscellaneous updates and cleanup
 
-  * Support up to GHC 9.2
-  * Tighten various version bounds
+Published by: Chris Martin
 
-0.2.5.2 - 2019 Feb 16
+Date: 2023-07-11
 
-  * Add support for `QuickCheck` 2.12
+## 0.2.5.3
 
-0.2.5.1 - 2017 Dec 12
+Support up to GHC 9.2
+
+Tighten various version bounds
+
+Published by: Chris Martin
+
+Date: 2021-01-14
+
+## 0.2.5.2
+
+Add support for `QuickCheck` 2.12
+
+Published by: Chris Martin
+
+Date: 2019-02-16
+
+## 0.2.5.1
+
+Published by: John Millikin
+
+Date: 2017-12-12

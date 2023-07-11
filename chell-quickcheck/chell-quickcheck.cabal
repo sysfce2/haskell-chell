@@ -1,39 +1,32 @@
 cabal-version: 3.0
 
 name: chell-quickcheck
-version: 0.2.5.3
+version: 0.2.5.4
 
-synopsis: QuickCheck support for the Chell testing library
+synopsis: QuickCheck support for Chell
 category: Testing
 
 license: MIT
 license-file: license.txt
 author: John Millikin <john@john-millikin.com>
 maintainer: Chris Martin, Julie Moronuki
-build-type: Simple
 
-homepage:    https://github.com/typeclasses/chell
-bug-reports: https://github.com/typeclasses/chell/issues
+homepage: https://github.com/typeclasses/chell
 
 description:
-  QuickCheck support for the <https://hackage.haskell.org/package/chell Chell> testing library.
+    QuickCheck support for the Chell testing library.
 
-extra-source-files:
-  changelog.md
-
-source-repository head
-  type: git
-  location: https://github.com/typeclasses/chell.git
+extra-source-files: *.md
 
 library
-  default-language: Haskell2010
-  ghc-options: -Wall
+    default-language: GHC2021
+    ghc-options: -Wall
 
-  build-depends:
-      base >= 4.10 && < 4.17
-    , chell >= 0.3 && < 0.6
-    , QuickCheck >= 2.7 && < 2.15
-    , random >= 1.1 && < 1.3
+    build-depends:
+      , base ^>= 4.16 || ^>= 4.17 || ^>= 4.18
+      , chell ^>= 0.5
+      , QuickCheck ^>= 2.14.2
+      , random ^>= 1.2.1
 
-  exposed-modules:
-    Test.Chell.QuickCheck
+    exposed-modules:
+        Test.Chell.QuickCheck

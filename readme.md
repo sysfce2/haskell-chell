@@ -2,6 +2,12 @@
 
 A quiet test runner for Haskell
 
+## Building
+
+To build and test with all supported compiler versions:
+
+    nix build .#testConfigurations.all --no-link
+
 ## History
 
 Back in 2011 or so, the most popular Haskell test frameworks generated a lot of status output but relatively little info about why tests failed. John Millikin wrote Chell so that tests would be quiet if they passed, and give to-the-line error info on failure.

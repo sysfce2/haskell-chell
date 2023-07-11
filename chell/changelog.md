@@ -1,14 +1,35 @@
-# Release history for `chell`
+## 0.5.0.2
 
-0.5.0.1 - 2021 Jan 14
+Miscellaneous updates and cleanup
 
-  * Support up to GHC 9.2
-  * Tighten various version bounds
+Published by: Chris Martin
 
-0.5 - 2019 Feb 16
+Date: 2023-07-11
 
-  * Add support for `patience` 0.2
-  * Drop support for `patience` 0.1
-  * Add support for `ansi-terminal` 0.8
+## 0.5.0.1
 
-0.4.0.2 - 2017 Dec 12
+Support up to GHC 9.2
+
+Tighten various version bounds
+
+Published by: Chris Martin
+
+Date: 2021-01-14
+
+## 0.5
+
+Add support for `patience` 0.2
+
+Drop support for `patience` 0.1
+
+Add support for `ansi-terminal` 0.8
+
+Published by: Chris Martin
+
+Date: 2019-02-16
+
+## 0.4.0.2
+
+Published by: John Millikin
+
+Date: 2017-12-12

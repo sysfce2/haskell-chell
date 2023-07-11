@@ -1,38 +1,31 @@
 cabal-version: 3.0
 
 name: chell-hunit
-version: 0.3.0.1
+version: 0.3.0.2
 
-synopsis: HUnit support for the Chell testing library
+synopsis: HUnit support for Chell
 category: Testing
 
 license: MIT
 license-file: license.txt
 author: John Millikin <john@john-millikin.com>
 maintainer: Chris Martin, Julie Moronuki
-build-type: Simple
 
-homepage:    https://github.com/typeclasses/chell
-bug-reports: https://github.com/typeclasses/chell/issues
+homepage: https://github.com/typeclasses/chell
 
 description:
-  HUnit support for the <https://hackage.haskell.org/package/chell Chell> testing library.
+    HUnit support for the Chell testing library.
 
-extra-source-files:
-  changelog.md
-
-source-repository head
-  type: git
-  location: https://github.com/typeclasses/chell.git
+extra-source-files: *.md
 
 library
-  default-language: Haskell2010
-  ghc-options: -Wall
+    default-language: GHC2021
+    ghc-options: -Wall
 
-  build-depends:
-      base >= 4.10 && < 4.17
-    , chell >= 0.3 && < 0.6
-    , HUnit >= 1.3 && < 1.7
+    build-depends:
+      , base ^>= 4.16 || ^>= 4.17 || ^>= 4.18
+      , chell ^>= 0.5
+      , HUnit ^>= 1.6.2
 
-  exposed-modules:
-    Test.Chell.HUnit
+    exposed-modules:
+        Test.Chell.HUnit

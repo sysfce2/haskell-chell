@@ -1,57 +1,55 @@
 {-# LANGUAGE CPP #-}
 
 module Test.Chell.Output
-  ( Output
-  , outputStart
-  , outputResult
+  ( Output,
+    outputStart,
+    outputResult,
+    ColorMode (..),
+    plainOutput,
+    colorOutput,
+  )
+where
 
-  , ColorMode(..)
-
-  , plainOutput
-  , colorOutput
-  ) where
-
-import           Control.Monad (forM_, unless, when)
+import Control.Monad (forM_, unless, when)
 
 #ifdef MIN_VERSION_ansi_terminal
 import qualified System.Console.ANSI as AnsiTerminal
 #endif
 
-import           Test.Chell.Types
+import Test.Chell.Types
 
-data Output =
-  Output
-    { outputStart :: Test -> IO ()
-    , outputResult :: Test -> TestResult -> IO ()
-    }
+data Output = Output
+  { outputStart :: Test -> IO (),
+    outputResult :: Test -> TestResult -> IO ()
+  }
 
 plainOutput :: Bool -> Output
 plainOutput v =
   Output
-    { outputStart = plainOutputStart v
-    , outputResult = plainOutputResult v
+    { outputStart = plainOutputStart v,
+      outputResult = plainOutputResult v
     }
 
 plainOutputStart :: Bool -> Test -> IO ()
 plainOutputStart v t =
-    when v $
-      do
-        putStr "[ RUN   ] "
-        putStrLn (testName t)
+  when v $
+    do
+      putStr "[ RUN   ] "
+      putStrLn (testName t)
 
 plainOutputResult :: Bool -> Test -> TestResult -> IO ()
 plainOutputResult v t (TestPassed _) =
-    when v $
-      do
-        putStr "[ PASS  ] "
-        putStrLn (testName t)
-        putStrLn ""
+  when v $
+    do
+      putStr "[ PASS  ] "
+      putStrLn (testName t)
+      putStrLn ""
 plainOutputResult v t TestSkipped =
-    when v $
-      do
-        putStr "[ SKIP  ] "
-        putStrLn (testName t)
-        putStrLn ""
+  when v $
+    do
+      putStr "[ SKIP  ] "
+      putStrLn (testName t)
+      putStrLn ""
 plainOutputResult _ t (TestFailed notes fs) =
   do
     putStr "[ FAIL  ] "
@@ -154,30 +152,30 @@ colorOutputResult _ _ _ = return ()
 
 printNotes :: [(String, String)] -> IO ()
 printNotes notes =
-    unless (null notes) $
-      do
-        forM_ notes $ \(key, value) ->
-          do
-            putStr "  note: "
-            putStr key
-            putStr "="
-            putStrLn value
-        putStrLn ""
+  unless (null notes) $
+    do
+      forM_ notes $ \(key, value) ->
+        do
+          putStr "  note: "
+          putStr key
+          putStr "="
+          putStrLn value
+      putStrLn ""
 
 printFailures :: [Failure] -> IO ()
 printFailures fs =
-    forM_ fs $ \f ->
-      do
-        putStr "  "
-        case failureLocation f of
-          Just loc ->
-            do
-              putStr (locationFile loc)
-              putStr ":"
-              case locationLine loc of
-                  Just line -> putStrLn (show line)
-                  Nothing -> putStrLn ""
-          Nothing -> return ()
-        putStr "  "
-        putStr (failureMessage f)
-        putStrLn "\n"
+  forM_ fs $ \f ->
+    do
+      putStr "  "
+      case failureLocation f of
+        Just loc ->
+          do
+            putStr (locationFile loc)
+            putStr ":"
+            case locationLine loc of
+              Just line -> putStrLn (show line)
+              Nothing -> putStrLn ""
+        Nothing -> return ()
+      putStr "  "
+      putStr (failureMessage f)
+      putStrLn "\n"

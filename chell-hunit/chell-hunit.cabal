@@ -19,7 +19,7 @@ description:
 extra-source-files: *.md
 
 tested-with:
-    GHC == 9.12.0
+    GHC == 9.12.1
     GHC == 9.10.1
     GHC == 9.8.2
     GHC == 9.6.6
